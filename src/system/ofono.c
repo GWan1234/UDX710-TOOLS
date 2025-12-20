@@ -324,6 +324,8 @@ int ofono_network_get_signal_strength(const char* modem_path, int* strength, int
     }
 
     GVariant *props = g_variant_get_child_value(result, 0);
+    gboolean got_dbm = FALSE;
+    
     if (props) {
         GVariantIter iter;
         const gchar *key;
@@ -334,14 +336,18 @@ int ofono_network_get_signal_strength(const char* modem_path, int* strength, int
             if (g_strcmp0(key, "Strength") == 0 && strength) {
                 *strength = g_variant_get_byte(value);
                 ret = 0;
+            } else if (g_strcmp0(key, "StrengthDbm") == 0 && dbm) {
+                *dbm = g_variant_get_int32(value);
+                got_dbm = TRUE;
             }
             g_variant_unref(value);
         }
         g_variant_unref(props);
     }
 
-    if (ret == 0 && dbm && strength) {
-        *dbm = 113 - 2 * (*strength);
+    // 如果没有获取到 StrengthDbm，则使用 Strength 计算
+    if (ret == 0 && dbm && !got_dbm && strength) {
+        *dbm = -113 + 2 * (*strength);
     }
 
     g_variant_unref(result);

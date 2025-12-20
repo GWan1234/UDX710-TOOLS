@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 /* 当前固件版本 */
-#define FIRMWARE_VERSION "1.3.0"
+#define FIRMWARE_VERSION "1.3.2"
 
 /* 更新文件路径 */
 #define UPDATE_TMP_DIR "/tmp"
@@ -22,7 +22,7 @@ extern "C" {
 #define UPDATE_INSTALL_SCRIPT "/tmp/update/install.sh"
 
 /* 版本检查URL（编译时嵌入） */
-#define UPDATE_CHECK_URL " "
+#define UPDATE_CHECK_URL "https://gitee.com/C_Rabe/leo/raw/master/version.json"
 
 /* 安装脚本签名配置文件 */
 #define UPDATE_CONFIG_FILE "/tmp/update/configuration.json"
